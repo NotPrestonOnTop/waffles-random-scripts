@@ -75,18 +75,14 @@
     };
     p1.appendChild(btn);
 
-    // Advanced Authentic Plus / Deluxe Switcher
+    // Membership Switcher Button (Placed right in the main tab)
     var btnPlus = document.createElement('button');
     btnPlus.innerText = 'membership: [off]';
     btnPlus.style.cssText = 'width:100%;padding:10px 12px;background:' + thm.def.card + ';color:' + thm.def.sub + ';border:1px solid ' + thm.def.border + ';border-radius:6px;cursor:pointer;font-weight:600;font-size:12px;text-transform:lowercase;letter-spacing:0.5px;transition:all 0.2s ease;';
     
     function updateMembership() {
         var badgeId = 'poly-mod-native-badge';
-        var profileCardId = 'poly-mod-profile-glow';
-        
-        // Clean up previous injections
         document.querySelectorAll('#' + badgeId).forEach(function(el){ el.remove(); });
-        document.querySelectorAll('#' + profileCardId).forEach(function(el){ el.style.boxShadow = 'none'; });
 
         if (plusState === 0) {
             btnPlus.innerText = 'membership: [off]';
@@ -98,21 +94,18 @@
             btnPlus.style.background = '#2563eb';
             btnPlus.style.color = '#ffffff';
             btnPlus.style.borderColor = '#3b82f6';
-            
             injectBadges('PLUS', 'linear-gradient(135deg, #2563eb, #1d4ed8)', 'rgba(37, 99, 235, 0.4)');
         } else if (plusState === 2) {
             btnPlus.innerText = 'membership: [plus deluxe]';
             btnPlus.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
             btnPlus.style.color = '#ffffff';
             btnPlus.style.borderColor = '#fbbf24';
-            
             injectBadges('DELUXE', 'linear-gradient(135deg, #f59e0b, #b45309)', 'rgba(245, 158, 11, 0.6)');
         }
     }
 
     function injectBadges(text, bgGrad, shadowCol) {
         var badgeId = 'poly-mod-native-badge';
-        // Target profile headers, usernames, and navigation items globally
         document.querySelectorAll('a, h1, h2, h3, span, div').forEach(function(el) {
             if (el.getAttribute && el.getAttribute('href') && el.getAttribute('href').includes('/users/')) {
                 if (el.innerText && el.innerText.trim().length > 0 && !el.querySelector('#' + badgeId)) {
@@ -135,10 +128,10 @@
     var p2 = document.createElement('div');
     p2.style.cssText = 'display:none;flex-direction:column;gap:10px;opacity:0;transition:opacity 0.2s ease;width:100%;';
     p2.innerHTML = '<div style="font-size:11px;color:' + thm.def.sub + ';font-weight:600;margin-bottom:2px;text-transform:lowercase;letter-spacing:0.5px;">theme preset</div>' +
-                   '<div style="display:flex;gap:8px;"><button id="thm-def" style="flex:1;padding:8px;background:' + thm.def.card + ';color:#fff;border:1px solid ' + thm.def.acc + ';border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;text-transform:lowercase;">default</button>' +
-                   '<button id="thm-che" style="flex:1;padding:8px;background:' + thm.che.card + ';color:#fff;border:1px solid ' + thm.che.border + ';border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;text-transform:lowercase;">cherry</button></div>' +
-                   '<div style="font-size:11px;color:' + thm.def.sub + ';font-weight:600;margin-top:6px;margin-bottom:2px;text-transform:lowercase;letter-spacing:0.5px;">rgb mode</div>' +
-                   '<button id="rgb-tgl" style="width:100%;padding:8px;background:' + thm.def.card + ';color:#ef4444;border:1px solid ' + thm.def.border + ';border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;text-transform:lowercase;display:flex;justify-content:space-between;align-items:center;padding-left:12px;padding-right:12px;"><span>RGB Lighting</span><span id="rgb-st">[ off ]</span></button>';
+                   '<div style="display:flex;gap:8px;"><button id="thm-def" style="flex:1;padding:8px;background:' + thm.def.card + ';color:#fff;border:1px solid '+thm.def.acc+';border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;text-transform:lowercase;">default</button>' +
+                   '<button id="thm-che" style="flex:1;padding:8px;background:' + thm.che.card + ';color:#fff;border:1px solid '+thm.che.border+';border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;text-transform:lowercase;">cherry</button></div>' +
+                   '<div style="font-size:11px;color:'+thm.def.sub+';font-weight:600;margin-top:6px;margin-bottom:2px;text-transform:lowercase;letter-spacing:0.5px;">rgb mode</div>' +
+                   '<button id="rgb-tgl" style="width:100%;padding:8px;background:'+thm.def.card+';color:#ef4444;border:1px solid '+thm.def.border+';border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;text-transform:lowercase;display:flex;justify-content:space-between;align-items:center;padding-left:12px;padding-right:12px;"><span>RGB Lighting</span><span id="rgb-st">[ off ]</span></button>';
 
     function applyTheme(name) {
         curThm = name;
@@ -208,7 +201,7 @@
                 }, 30);
             } else {
                 st.innerText = '[ off ]';
-                st.style.color = '#ef4444';
+                st.style.color='#ef4444';
                 clearInterval(rgbTimer);
                 applyTheme(curThm);
             }
