@@ -49,9 +49,9 @@
     var p1 = document.createElement('div');
     p1.style.cssText = 'display:flex;flex-direction:column;gap:10px;opacity:1;transition:opacity 0.2s ease;width:100%;';
     
-    // Max Balance Button
+    // Max Currency Button
     var btn = document.createElement('button');
-    btn.innerText = 'start (max balance)';
+    btn.innerText = 'max currency';
     btn.style.cssText = 'width:100%;padding:10px 12px;background:' + thm.def.acc + ';color:' + thm.def.txt + ';border:none;border-radius:6px;cursor:pointer;font-weight:700;font-size:12px;text-transform:lowercase;letter-spacing:0.5px;box-shadow:0 4px 12px rgba(0,0,0,0.3);transition:background 0.2s,transform 0.1s;';
     btn.onclick = function() {
         document.querySelectorAll('*').forEach(function(el) {
@@ -75,7 +75,7 @@
     };
     p1.appendChild(btn);
 
-    // Membership Switcher Button (Placed right in the main tab)
+    // Membership Switcher Button
     var btnPlus = document.createElement('button');
     btnPlus.innerText = 'membership: [off]';
     btnPlus.style.cssText = 'width:100%;padding:10px 12px;background:' + thm.def.card + ';color:' + thm.def.sub + ';border:1px solid ' + thm.def.border + ';border-radius:6px;cursor:pointer;font-weight:600;font-size:12px;text-transform:lowercase;letter-spacing:0.5px;transition:all 0.2s ease;';
@@ -128,10 +128,10 @@
     var p2 = document.createElement('div');
     p2.style.cssText = 'display:none;flex-direction:column;gap:10px;opacity:0;transition:opacity 0.2s ease;width:100%;';
     p2.innerHTML = '<div style="font-size:11px;color:' + thm.def.sub + ';font-weight:600;margin-bottom:2px;text-transform:lowercase;letter-spacing:0.5px;">theme preset</div>' +
-                   '<div style="display:flex;gap:8px;"><button id="thm-def" style="flex:1;padding:8px;background:' + thm.def.card + ';color:#fff;border:1px solid '+thm.def.acc+';border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;text-transform:lowercase;">default</button>' +
-                   '<button id="thm-che" style="flex:1;padding:8px;background:' + thm.che.card + ';color:#fff;border:1px solid '+thm.che.border+';border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;text-transform:lowercase;">cherry</button></div>' +
-                   '<div style="font-size:11px;color:'+thm.def.sub+';font-weight:600;margin-top:6px;margin-bottom:2px;text-transform:lowercase;letter-spacing:0.5px;">rgb mode</div>' +
-                   '<button id="rgb-tgl" style="width:100%;padding:8px;background:'+thm.def.card+';color:#ef4444;border:1px solid '+thm.def.border+';border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;text-transform:lowercase;display:flex;justify-content:space-between;align-items:center;padding-left:12px;padding-right:12px;"><span>RGB Lighting</span><span id="rgb-st">[ off ]</span></button>';
+                   '<div style="display:flex;gap:8px;"><button id="thm-def" style="flex:1;padding:8px;background:' + thm.def.card + ';color:#fff;border:1px solid ' + thm.def.acc + ';border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;text-transform:lowercase;">default</button>' +
+                   '<button id="thm-che" style="flex:1;padding:8px;background:' + thm.che.card + ';color:#fff;border:1px solid ' + thm.che.border + ';border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;text-transform:lowercase;">cherry</button></div>' +
+                   '<div style="font-size:11px;color:' + thm.def.sub + ';font-weight:600;margin-top:6px;margin-bottom:2px;text-transform:lowercase;letter-spacing:0.5px;">rgb mode</div>' +
+                   '<button id="rgb-tgl" style="width:100%;padding:8px;background:' + thm.def.card + ';color:#ef4444;border:1px solid ' + thm.def.border + ';border-radius:6px;cursor:pointer;font-size:11px;font-weight:600;text-transform:lowercase;display:flex;justify-content:space-between;align-items:center;padding-left:12px;padding-right:12px;"><span>RGB Lighting</span><span id="rgb-st">[ off ]</span></button>';
 
     function applyTheme(name) {
         curThm = name;
@@ -201,7 +201,7 @@
                 }, 30);
             } else {
                 st.innerText = '[ off ]';
-                st.style.color='#ef4444';
+                st.style.color = '#ef4444';
                 clearInterval(rgbTimer);
                 applyTheme(curThm);
             }
