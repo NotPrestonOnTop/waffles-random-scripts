@@ -6,11 +6,11 @@
         che: { bg: '#181212', card: '#241616', border: '#3d2222', acc: '#ef4444', txt: '#ffffff', sub: '#d18888' }
     };
     
-    var curThm = 'def', rgbOn = false, rgbH = 0, rgbTimer = null;
+    var curThm = 'def', rgbOn = false, rgbH = 0, rgbTimer = null, plusState = 0; // 0: Off, 1: Plus, 2: Deluxe
     
     var m = document.createElement('div');
     m.id = 'poly-mod-console';
-    m.style.cssText = 'position:fixed;top:100px;left:100px;width:320px;min-width:260px;min-height:200px;background:' + thm.def.bg + ';color:#fff;border:1px solid ' + thm.def.border + ';border-radius:8px;box-shadow:0 12px 32px rgba(0,0,0,0.8);z-index:99999;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;user-select:none;resize:both;overflow:hidden;transform:scale(0.95);opacity:0;transition:transform 0.25s cubic-bezier(0.16,1,0.3,1),opacity 0.2s ease;display:flex;flex-direction:column;';
+    m.style.cssText = 'position:fixed;top:100px;left:100px;width:320px;min-width:260px;min-height:220px;background:' + thm.def.bg + ';color:#fff;border:1px solid ' + thm.def.border + ';border-radius:8px;box-shadow:0 12px 32px rgba(0,0,0,0.8);z-index:99999;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;user-select:none;resize:both;overflow:hidden;transform:scale(0.95);opacity:0;transition:transform 0.25s cubic-bezier(0.16,1,0.3,1),opacity 0.2s ease;display:flex;flex-direction:column;';
     
     setTimeout(function(){ m.style.transform = 'scale(1)'; m.style.opacity = '1'; }, 10);
     
@@ -49,6 +49,7 @@
     var p1 = document.createElement('div');
     p1.style.cssText = 'display:flex;flex-direction:column;gap:10px;opacity:1;transition:opacity 0.2s ease;width:100%;';
     
+    // Max Balance Button
     var btn = document.createElement('button');
     btn.innerText = 'start (max balance)';
     btn.style.cssText = 'width:100%;padding:10px 12px;background:' + thm.def.acc + ';color:' + thm.def.txt + ';border:none;border-radius:6px;cursor:pointer;font-weight:700;font-size:12px;text-transform:lowercase;letter-spacing:0.5px;box-shadow:0 4px 12px rgba(0,0,0,0.3);transition:background 0.2s,transform 0.1s;';
@@ -73,6 +74,63 @@
         });
     };
     p1.appendChild(btn);
+
+    // Advanced Authentic Plus / Deluxe Switcher
+    var btnPlus = document.createElement('button');
+    btnPlus.innerText = 'membership: [off]';
+    btnPlus.style.cssText = 'width:100%;padding:10px 12px;background:' + thm.def.card + ';color:' + thm.def.sub + ';border:1px solid ' + thm.def.border + ';border-radius:6px;cursor:pointer;font-weight:600;font-size:12px;text-transform:lowercase;letter-spacing:0.5px;transition:all 0.2s ease;';
+    
+    function updateMembership() {
+        var badgeId = 'poly-mod-native-badge';
+        var profileCardId = 'poly-mod-profile-glow';
+        
+        // Clean up previous injections
+        document.querySelectorAll('#' + badgeId).forEach(function(el){ el.remove(); });
+        document.querySelectorAll('#' + profileCardId).forEach(function(el){ el.style.boxShadow = 'none'; });
+
+        if (plusState === 0) {
+            btnPlus.innerText = 'membership: [off]';
+            btnPlus.style.background = thm[curThm].card;
+            btnPlus.style.color = thm[curThm].sub;
+            btnPlus.style.borderColor = thm[curThm].border;
+        } else if (plusState === 1) {
+            btnPlus.innerText = 'membership: [polytoria plus]';
+            btnPlus.style.background = '#2563eb';
+            btnPlus.style.color = '#ffffff';
+            btnPlus.style.borderColor = '#3b82f6';
+            
+            injectBadges('PLUS', 'linear-gradient(135deg, #2563eb, #1d4ed8)', 'rgba(37, 99, 235, 0.4)');
+        } else if (plusState === 2) {
+            btnPlus.innerText = 'membership: [plus deluxe]';
+            btnPlus.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+            btnPlus.style.color = '#ffffff';
+            btnPlus.style.borderColor = '#fbbf24';
+            
+            injectBadges('DELUXE', 'linear-gradient(135deg, #f59e0b, #b45309)', 'rgba(245, 158, 11, 0.6)');
+        }
+    }
+
+    function injectBadges(text, bgGrad, shadowCol) {
+        var badgeId = 'poly-mod-native-badge';
+        // Target profile headers, usernames, and navigation items globally
+        document.querySelectorAll('a, h1, h2, h3, span, div').forEach(function(el) {
+            if (el.getAttribute && el.getAttribute('href') && el.getAttribute('href').includes('/users/')) {
+                if (el.innerText && el.innerText.trim().length > 0 && !el.querySelector('#' + badgeId)) {
+                    var badge = document.createElement('span');
+                    badge.id = badgeId;
+                    badge.innerHTML = '★ ' + text;
+                    badge.style.cssText = 'background:' + bgGrad + ';color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;margin-left:6px;vertical-align:middle;box-shadow:0 0 10px ' + shadowCol + ';letter-spacing:0.5px;display:inline-block;text-transform:uppercase;';
+                    el.appendChild(badge);
+                }
+            }
+        });
+    }
+
+    btnPlus.onclick = function() {
+        plusState = (plusState + 1) % 3;
+        updateMembership();
+    };
+    p1.appendChild(btnPlus);
     
     var p2 = document.createElement('div');
     p2.style.cssText = 'display:none;flex-direction:column;gap:10px;opacity:0;transition:opacity 0.2s ease;width:100%;';
@@ -96,6 +154,11 @@
         ca.style.background = t.bg;
         btn.style.background = rgbOn ? 'hsl(' + rgbH + ',100%,50%)' : t.acc;
         btn.style.color = t.txt;
+        if (plusState === 0) {
+            btnPlus.style.background = t.card;
+            btnPlus.style.color = t.sub;
+            btnPlus.style.borderColor = t.border;
+        }
     }
 
     t1.onclick = function() {
